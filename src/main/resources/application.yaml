@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: First-AI
+  ai:
+    openai:
+        base-url: ${openai.base-url}
+        api-key: ${openai.api-key}
+        chat:
+          options:
+              model: gpt-3.5-turbo
+              temperature: 0.7

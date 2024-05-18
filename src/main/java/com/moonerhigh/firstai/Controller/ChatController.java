@@ -12,7 +12,7 @@ import reactor.core.publisher.Flux;
 
 import java.util.Map;
 
-@RestController
+@RestController("/chat")
 public class ChatController {
 
     private final OpenAiChatClient chatClient;
