@@ -41,7 +41,9 @@ public class ChatController {
         SseEmitter emitter = new SseEmitter();
         log.info("OpenAI建立SSE连接...");
         CompletableFuture.supplyAsync(() -> {
+            log.info("收到消息: {}", message);
             String result = chatClient.call(message);
+            log.info("返回消息: {}", result);
             return Map.of("generation", result);
         }).whenComplete((result, throwable) -> {
             try {
