@@ -1,6 +1,8 @@
 package com.moonerhigh.firstai.service;
 
 import com.moonerhigh.firstai.EventEnum.EventType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -14,6 +16,8 @@ import java.util.stream.IntStream;
 @Service
 public class ChatServiceImpl implements ChatService {
 
+
+    private static final Logger log = LoggerFactory.getLogger(ChatServiceImpl.class);
 
     /**
      * 聊天流
@@ -59,6 +63,7 @@ public class ChatServiceImpl implements ChatService {
      * @return SSE流
      */
     private Flux<ServerSentEvent<String>> getServerSentEventFlux(List<String> characters) {
+        log.info("Creating SSE stream for characters: {}", characters);
         return Flux.concat(
                         Mono.just(ServerSentEvent.<String>builder()
                                 .event(EventType.START.getEventName())

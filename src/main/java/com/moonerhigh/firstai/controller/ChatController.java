@@ -1,5 +1,6 @@
 package com.moonerhigh.firstai.controller;
 
+import com.moonerhigh.firstai.dto.ChatRequestDto;
 import com.moonerhigh.firstai.service.ChatService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import org.springframework.ai.openai.OpenAiChatClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
@@ -38,8 +40,8 @@ public class ChatController {
      * @return: {@link Flux< ServerSentEvent< String>>} 聊天内容
      **/
     @GetMapping(value = "/ai/generateContinuous", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<ServerSentEvent<String>> generateContinuous(@RequestParam(value = "message", defaultValue = "Tell me a joke") String message) {
-        String response = chatClient.call(message);
+    public Flux<ServerSentEvent<String>> generateContinuous(@RequestBody @Validated ChatRequestDto requestDto) {
+        String response = chatClient.call(requestDto.getMessage());
         return chatService.chatStreamContinuous(response);
     }
 
@@ -52,14 +54,14 @@ public class ChatController {
      * @return: {@link Flux< ServerSentEvent< String>>} 聊天内容
      **/
     @PostMapping(value = "/ai/generateCharacter", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<ServerSentEvent<String>> generateCharacter(@RequestParam(value = "message", defaultValue = "Tell me a joke") String message) {
-        String response = chatClient.call(message);
+    public Flux<ServerSentEvent<String>> generateCharacter(@RequestBody @Validated ChatRequestDto requestDto) {
+        String response = chatClient.call(requestDto.getMessage());
         return chatService.streamResponseByCharacter(response);
     }
 
     @PostMapping("/ai/generateStream")
-    public Flux<ChatResponse> generateStream(@RequestParam(value = "message", defaultValue = "Tell me a joke") String message) {
-        Prompt prompt = new Prompt(new UserMessage(message));
+    public Flux<ChatResponse> generateStream(@RequestBody @Validated ChatRequestDto requestDto) {
+        Prompt prompt = new Prompt(new UserMessage(requestDto.getMessage()));
         return chatClient.stream(prompt);
     }
 }
