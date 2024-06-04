@@ -1,5 +1,8 @@
 package com.moonerhigh.firstai.EventEnum;
 
+import lombok.Getter;
+
+@Getter
 public enum EventType {
 
     START("start"),
@@ -13,7 +16,4 @@ public enum EventType {
         this.eventName = eventName;
     }
 
-    public String getEventName() {
-        return eventName;
-    }
 }
