@@ -3,9 +3,21 @@ spring:
     name: First-AI
   ai:
     openai:
-        base-url: ${openai.base-url}
-        api-key: ${openai.api-key}
-        chat:
-          options:
-              model: gpt-3.5-turbo
-              temperature: 0.7
+      base-url: ${openai.base-url}
+      api-key: ${openai.api-key}
+      chat:
+        options:
+          model: gpt-3.5-turbo
+          temperature: 0.7
+      image:
+        api-key: ${openai.image.api-key}
+        options:
+          model: "gpt-4-dalle"
+          # 生成图像的数量
+          n: 1
+          # 图像的质量
+          quality: "hd"
+          # 图像的宽度
+          height: 512
+          # 图像的高度
+          width: 512
