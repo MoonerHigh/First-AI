@@ -12,11 +12,11 @@ spring:
       image:
         api-key: ${openai.image.api-key}
         options:
-          model: "gpt-4-dalle"
+          model: gpt-4-dalle
           # 生成图像的数量
           n: 1
           # 图像的质量
-          quality: "hd"
+          quality: hd
           # 图像的宽度
           height: 512
           # 图像的高度
